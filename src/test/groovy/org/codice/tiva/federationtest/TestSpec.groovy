@@ -1,7 +1,19 @@
+import groovyx.net.http.AuthConfig
+import groovyx.net.http.RESTClient
 import spock.lang.Ignore
 import spock.lang.Specification
 
 class TestSpec extends Specification {
+
+    def httpClient = new RESTClient('https://localhost:8993').with {
+        it.authConfig = new AuthConfig(it).with {
+            it.basic(System.getProperty('user_name', 'admin'),
+                System.getProperty('user_pass', 'admin'))
+            return it
+        }
+
+        return it
+    }
 
     def before() {
         // class setup
@@ -29,5 +41,4 @@ class TestSpec extends Specification {
         then:
         myList.size() == 5
     }
-
 }
